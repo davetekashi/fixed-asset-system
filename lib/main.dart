@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 void main() {
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Dashboard(),
+      home: Screen2(),
     );
   }
 }
@@ -30,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
   final List<Widget> _screens = [
     Screen1(),
     Screen2(),
-    // Screen3(),
+    Screen3(),
   ];
 
   bool _showDrawer = false;
@@ -228,126 +230,219 @@ class Screen1 extends StatelessWidget {
   }
 }
 
-class Screen2 extends StatelessWidget {
+class Screen2 extends StatefulWidget {
+  @override
+  State<Screen2> createState() => _Screen2State();
+}
+
+class _Screen2State extends State<Screen2> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 30,
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Item List',
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.w600)),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Color.fromRGBO(77, 104, 236, 1),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.add,
-                          color: Color(0xffffffff),
-                        ),
-                        Text(
-                          'Add Item',
-                          style: TextStyle(
-                            color: Color(
-                              0xffffffff,
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 30,
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Item List',
+                    style:
+                        TextStyle(fontSize: 26, fontWeight: FontWeight.w600)),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Color.fromRGBO(77, 104, 236, 1),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: Color(0xffffffff),
+                          ),
+                          Text(
+                            'Add Item',
+                            style: TextStyle(
+                              color: Color(
+                                0xffffffff,
+                              ),
                             ),
                           ),
-                        ),
-                        PopupMenuButton<String>(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(
-                              0xffffffff,
-                            ),
-                          ), // Specify the dropdown icon
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              value: 'Add an Item',
-                              child: Text('Add an Item'),
-                            ),
-                            PopupMenuItem(
-                              value: 'Add Item Variants',
-                              child: Text('Add Item Variants'),
-                            ),
-                            PopupMenuItem(
-                              value: 'Import Excel File',
-                              child: Text('Import Excel File'),
-                            ),
-                          ],
-                          onSelected: (value) {
-                            // Handle the selected value
-                            print('Selected value: $value');
-                          },
-                        ),
-                      ],
+                          PopupMenuButton<String>(
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              color: Color(
+                                0xffffffff,
+                              ),
+                            ), // Specify the dropdown icon
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'Add an Item',
+                                child: Text('Add an Item'),
+                              ),
+                              PopupMenuItem(
+                                value: 'Add Item Variants',
+                                child: Text('Add Item Variants'),
+                              ),
+                              PopupMenuItem(
+                                value: 'Import Excel File',
+                                child: Text('Import Excel File'),
+                              ),
+                            ],
+                            onSelected: (value) {
+                              value == 'Add an Item'
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Screen3(),
+                                      ),
+                                    )
+                                  :
+                                  // Handle the selected value
+                                  print('Selected value: $value');
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 7,
+                    SizedBox(
+                      width: 10,
                     ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color.fromRGBO(
-                          77,
-                          104,
-                          236,
-                          1,
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(
+                    //     horizontal: 6,
+                    //     vertical: 7,
+                    //   ),
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(
+                    //       color: Color.fromRGBO(
+                    //         77,
+                    //         104,
+                    //         236,
+                    //         1,
+                    //       ),
+                    //     ),
+                    //     borderRadius: BorderRadius.circular(5),
+                    //     color: Colors.white,
+                    //   ),
+                    //   child: Row(
+                    //     children: [
+                    //       Icon(
+                    //         Icons.storage_rounded,
+                    //         color: Colors.grey,
+                    //       ),
+                    //       Text(
+                    //         'Data Center',
+                    //         style: TextStyle(
+                    //           color: Color(
+                    //             0xff111111,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth >= 600) {
+                  // Desktop view
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                              size: 25,
+                            ),
+                            hintText: 'Search by name, barcode, or attribute.',
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                5,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color.fromRGBO(
+                                  77,
+                                  104,
+                                  236,
+                                  1,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.storage_rounded,
-                          color: Colors.grey,
-                        ),
-                        Text(
-                          'Data Center',
-                          style: TextStyle(
-                            color: Color(
-                              0xff111111,
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(5)),
+                        padding: EdgeInsets.all(12),
+                        child: Icon(Icons.qr_code_scanner_outlined),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.remove_red_eye_outlined,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(text: 'Hidden files(s) '),
+                                TextSpan(text: ' (0)'),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth >= 600) {
-                // Desktop view
-                return Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
+                        ],
+                      )
+                    ],
+                  );
+                } else {
+                  // Mobile view
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextField(
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.search,
@@ -384,236 +479,709 @@ class Screen2 extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: BorderRadius.circular(5)),
+                            padding: EdgeInsets.all(12),
+                            child: Icon(Icons.qr_code_scanner_outlined),
+                          ),
+                          SizedBox(width: 20),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.remove_red_eye_outlined,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(text: 'Hidden files(s) '),
+                                    TextSpan(text: ' (0)'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  );
+                }
+              },
+            ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: TextField(
+            //         decoration: InputDecoration(
+            //           prefixIcon: Icon(
+            //             Icons.search,
+            //             color: Colors.grey,
+            //             size: 25,
+            //           ),
+            //           hintText: 'Search by name, barcode, or attribute.',
+            //           hintStyle: TextStyle(
+            //             color: Colors.grey,
+            //             fontSize: 14,
+            //           ),
+            //           border: OutlineInputBorder(
+            //             borderSide: BorderSide(
+            //               color: Colors.grey,
+            //             ),
+            //             borderRadius: BorderRadius.circular(
+            //               5,
+            //             ),
+            //           ),
+            //           enabledBorder: OutlineInputBorder(
+            //             borderSide: BorderSide(
+            //               color: Colors.grey,
+            //             ),
+            //           ),
+            //           focusedBorder: OutlineInputBorder(
+            //             borderSide: BorderSide(
+            //               color: Color.fromRGBO(
+            //                 77,
+            //                 104,
+            //                 236,
+            //                 1,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     SizedBox(
+            //       width: 10,
+            //     ),
+            //     Container(
+            //       decoration: BoxDecoration(
+            //           border: Border.all(
+            //             color: Colors.grey,
+            //           ),
+            //           borderRadius: BorderRadius.circular(5)),
+            //       padding: EdgeInsets.all(12),
+            //       child: Icon(Icons.qr_code_scanner_outlined),
+            //     ),
+            //     SizedBox(
+            //       width: 20,
+            //     ),
+            //     Row(
+            //       children: [
+            //         Icon(
+            //           Icons.remove_red_eye_outlined,
+            //         ),
+            //         SizedBox(
+            //           width: 5,
+            //         ),
+            //         Text.rich(
+            //           TextSpan(
+            //             children: [
+            //               TextSpan(text: 'Hidden files(s) '),
+            //               TextSpan(text: ' (0)'),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     )
+            //   ],
+            // ),
+
+            SizedBox(
+              height: 10,
+            ),
+
+            Divider(
+              thickness: 1,
+            ),
+            Expanded(
+              child:
+                  // Stack(
+                  //   children: [
+                  ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 50,
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
+                    child: Column(
+                      children: [
+                        Text(
+                          'There are no registered items. Please add an item.',
+                          style: TextStyle(
                             color: Colors.grey,
                           ),
-                          borderRadius: BorderRadius.circular(5)),
-                      padding: EdgeInsets.all(12),
-                      child: Icon(Icons.qr_code_scanner_outlined),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.remove_red_eye_outlined,
                         ),
                         SizedBox(
-                          width: 5,
+                          height: 20,
                         ),
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(text: 'Hidden files(s) '),
-                              TextSpan(text: ' (0)'),
-                            ],
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Screen3(),
+                                  ));
+                              // onItemTapped(2);
+                              // _selectedIndex = 0;
+                              // _showDrawer = false;
+                            });
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Color.fromRGBO(77, 104, 236, 1),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.add,
+                                  color: Color(0xffffffff),
+                                ),
+                                Text(
+                                  'Add Item',
+                                  style: TextStyle(
+                                    color: Color(
+                                      0xffffffff,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
-                    )
-                  ],
-                );
-              } else {
-                // Mobile view
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                    ),
+                  ),
+                ],
+              ),
+              //     Positioned(
+              //       bottom: 0,
+              //       right: 0,
+              //       child: FloatingActionButton(
+              //         onPressed: () {},
+              //         child: Image.asset(
+              //           'assets/images/message1.png',
+              //           color: Colors.white,
+              //           height: 40,
+              //           width: 40,
+              //         ),
+              //         // ImageIcon(
+              //         //   AssetImage(
+              //         //     'assets/images/message.png',
+              //         //   ),
+              //         // ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Screen3 extends StatefulWidget {
+  @override
+  State<Screen3> createState() => _Screen3State();
+}
+
+class _Screen3State extends State<Screen3> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.grey,
-                          size: 25,
-                        ),
-                        hintText: 'Search by name, barcode, or attribute.',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                          ),
+                    Text(
+                      'Item List',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 3,
+                    ),
+                    Text(
+                      'New Item',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      'Item Information',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey.shade200,
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        5,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text('Reset'),
+                  ),
+                )
+              ],
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Name',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: 'Name',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                             5,
                           ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.grey,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color.fromRGBO(
-                              77,
-                              104,
-                              236,
-                              1,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.grey,
-                              ),
-                              borderRadius: BorderRadius.circular(5)),
-                          padding: EdgeInsets.all(12),
-                          child: Icon(Icons.qr_code_scanner_outlined),
-                        ),
-                        SizedBox(width: 20),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.remove_red_eye_outlined,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(text: 'Hidden files(s) '),
-                                  TextSpan(text: ' (0)'),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                );
-              }
-            },
-          ),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: TextField(
-          //         decoration: InputDecoration(
-          //           prefixIcon: Icon(
-          //             Icons.search,
-          //             color: Colors.grey,
-          //             size: 25,
-          //           ),
-          //           hintText: 'Search by name, barcode, or attribute.',
-          //           hintStyle: TextStyle(
-          //             color: Colors.grey,
-          //             fontSize: 14,
-          //           ),
-          //           border: OutlineInputBorder(
-          //             borderSide: BorderSide(
-          //               color: Colors.grey,
-          //             ),
-          //             borderRadius: BorderRadius.circular(
-          //               5,
-          //             ),
-          //           ),
-          //           enabledBorder: OutlineInputBorder(
-          //             borderSide: BorderSide(
-          //               color: Colors.grey,
-          //             ),
-          //           ),
-          //           focusedBorder: OutlineInputBorder(
-          //             borderSide: BorderSide(
-          //               color: Color.fromRGBO(
-          //                 77,
-          //                 104,
-          //                 236,
-          //                 1,
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     SizedBox(
-          //       width: 10,
-          //     ),
-          //     Container(
-          //       decoration: BoxDecoration(
-          //           border: Border.all(
-          //             color: Colors.grey,
-          //           ),
-          //           borderRadius: BorderRadius.circular(5)),
-          //       padding: EdgeInsets.all(12),
-          //       child: Icon(Icons.qr_code_scanner_outlined),
-          //     ),
-          //     SizedBox(
-          //       width: 20,
-          //     ),
-          //     Row(
-          //       children: [
-          //         Icon(
-          //           Icons.remove_red_eye_outlined,
-          //         ),
-          //         SizedBox(
-          //           width: 5,
-          //         ),
-          //         Text.rich(
-          //           TextSpan(
-          //             children: [
-          //               TextSpan(text: 'Hidden files(s) '),
-          //               TextSpan(text: ' (0)'),
-          //             ],
-          //           ),
-          //         ),
-          //       ],
-          //     )
-          //   ],
-          // ),
-
-          SizedBox(
-            height: 10,
-          ),
-
-          Divider(
-            thickness: 1,
-          ),
-          Expanded(
-            child: Stack(
-              children: [
-                ListView(
-                  children: [],
+                          ))),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: FloatingActionButton(
-                    onPressed: () {},
-                    child: Image.asset(
-                      'assets/images/message1.png',
-                      color: Colors.white,
-                      height: 40,
-                      width: 40,
-                    ),
-                    // ImageIcon(
-                    //   AssetImage(
-                    //     'assets/images/message.png',
-                    //   ),
-                    // ),
+
+                // ListTile(
+                //   // leading: Text(
+                //   //   'Name',
+                //   //   style: TextStyle(
+                //   //     fontSize: 16,
+                //   //     color: Colors.black,
+                //   //     fontWeight: FontWeight.w700,
+                //   //   ),
+                //   // ),
+                //   title:   ),
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Barcode',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
                   ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText:
+                          'Click the "Generate" button to create a barcode',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ))),
+                ),
+
+                // ListTile(
+                //   // leading: Text(
+                //   //   'Name',
+                //   //   style: TextStyle(
+                //   //     fontSize: 16,
+                //   //     color: Colors.black,
+                //   //     fontWeight: FontWeight.w700,
+                //   //   ),
+                //   // ),
+                //   title:   ),
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Purchase Price',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: 'Purchase Price',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ))),
+                ),
+
+                // ListTile(
+                //   // leading: Text(
+                //   //   'Name',
+                //   //   style: TextStyle(
+                //   //     fontSize: 16,
+                //   //     color: Colors.black,
+                //   //     fontWeight: FontWeight.w700,
+                //   //   ),
+                //   // ),
+                //   title:   ),
+              ],
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Sales Price',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: 'Sales Price',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ))),
                 ),
               ],
             ),
-          )
-        ],
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              'Item Attribute',
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Type',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: 'Input Type',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ))),
+                ),
+
+                // ListTile(
+                //   // leading: Text(
+                //   //   'Name',
+                //   //   style: TextStyle(
+                //   //     fontSize: 16,
+                //   //     color: Colors.black,
+                //   //     fontWeight: FontWeight.w700,
+                //   //   ),
+                //   // ),
+                //   title:   ),
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Brand',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: 'Input Brand',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ))),
+                ),
+
+                // ListTile(
+                //   // leading: Text(
+                //   //   'Name',
+                //   //   style: TextStyle(
+                //   //     fontSize: 16,
+                //   //     color: Colors.black,
+                //   //     fontWeight: FontWeight.w700,
+                //   //   ),
+                //   // ),
+                //   title:   ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              'Quantity',
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Initial Quantity',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                      hintText: 'Input Initial Quantity',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 0,
+                        horizontal: 10,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            5,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ))),
+                ),
+
+                // ListTile(
+                //   // leading: Text(
+                //   //   'Name',
+                //   //   style: TextStyle(
+                //   //     fontSize: 16,
+                //   //     color: Colors.black,
+                //   //     fontWeight: FontWeight.w700,
+                //   //   ),
+                //   // ),
+                //   title:   ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(
+                        77,
+                        104,
+                        236,
+                        1,
+                      ),
+                      border: Border.all(
+                        color: Color.fromRGBO(
+                          77,
+                          104,
+                          236,
+                          1,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        5,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey.shade200,
+                      ),
+                      borderRadius: BorderRadius.circular(
+                        5,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
+    // Center(
+    //   child: TextButton(
+    //       onPressed: () {
+    //         Navigator.pop(context);
+    //       },
+    //       child: Text('back')),
+    // );
   }
 }
